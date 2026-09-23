@@ -1,1 +1,3 @@
 .kripto
+__pycache__/
+*.pyc
