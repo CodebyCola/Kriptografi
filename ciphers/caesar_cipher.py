@@ -1,6 +1,4 @@
 """
-Caesar Cipher — logic murni (tidak ada kode Streamlit di sini).
-
 Caesar Cipher menggeser tiap huruf sejauh `shift` posisi di alfabet.
 Karakter non-huruf (spasi, angka, tanda baca) dibiarkan apa adanya.
 
