@@ -17,6 +17,7 @@ import streamlit as st
 
 from pages_ui.xor_page import render as render_xor
 from pages_ui.caesar_page import render as render_caesar
+from pages_ui.vigenere_page import render as render_vigenere
 from pages_ui.coming_soon_page import render as render_coming_soon
 
 
@@ -33,7 +34,7 @@ st.set_page_config(
 
 MENUS = {
     "1. Caesar Cipher": {"icon": "📜", "kind": "caesar"},
-    "2. Cipher Klasik B": {"icon": "📜", "kind": "coming_soon"},
+    "2. vigenere Cipher ": {"icon": "📜", "kind": "vigenere"},
     "3. XOR Cipher (Modern)": {"icon": "🔐", "kind": "xor"},
     "4. Cipher Modern Lain": {"icon": "🧩", "kind": "coming_soon"},
     "5. Super Enkripsi": {"icon": "🧬", "kind": "coming_soon"},
@@ -60,6 +61,8 @@ def main():
         render_xor()
     elif menu["kind"] == "caesar":
         render_caesar()
+    elif menu["kind"] == "vigenere":
+        render_vigenere()
     else:
         render_coming_soon(pilihan)
 
