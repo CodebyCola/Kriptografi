@@ -106,6 +106,25 @@ def xor_step_detail(step, mode: str = "encrypt"):
         else:
             st.caption(f"Desimal: {result_decimal}")
 
+def classic_step_table(steps, input_label: str = "Input", output_label: str = "Hasil", show_key: bool = False):
+    """
+    Tabel ringkasan proses cipher klasik    
+    """
+    rows = []
+
+    for step in steps:
+        row = {
+            "No": step.index + 1,
+            input_label: step.original_char,
+        }
+        if show_key:
+            row["Key"] = step.key_char if step.is_alpha else "-"
+        row["Geser"] = step.shift_used if step.is_alpha else "-"
+        row[output_label] = step.result_char
+        rows.append(row)
+
+    st.dataframe(rows, width="stretch", hide_index=True)
+
 
 def _hex_repr(step) -> str:
     return f"0x{step.ciphertext_byte:02X}"
