@@ -16,6 +16,7 @@ tidak perlu menyentuh bagian lain di file ini.
 import streamlit as st
 
 from pages_ui.xor_page import render as render_xor
+from pages_ui.caesar_page import render as render_caesar
 from pages_ui.coming_soon_page import render as render_coming_soon
 
 
@@ -31,7 +32,7 @@ st.set_page_config(
 # ============================================================
 
 MENUS = {
-    "1. Cipher Klasik A": {"icon": "📜", "kind": "coming_soon"},
+    "1. Caesar Cipher": {"icon": "📜", "kind": "caesar"},
     "2. Cipher Klasik B": {"icon": "📜", "kind": "coming_soon"},
     "3. XOR Cipher (Modern)": {"icon": "🔐", "kind": "xor"},
     "4. Cipher Modern Lain": {"icon": "🧩", "kind": "coming_soon"},
@@ -57,6 +58,8 @@ def main():
 
     if menu["kind"] == "xor":
         render_xor()
+    elif menu["kind"] == "caesar":
+        render_caesar()
     else:
         render_coming_soon(pilihan)
 
