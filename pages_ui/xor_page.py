@@ -2,11 +2,7 @@
 Halaman menu: XOR Cipher (Algoritma Modern).
 
 Alur baca kode di file ini:
-1. render()          -> dipanggil dari main.py
-2. _tab_encrypt()     -> isi tab Enkripsi
-3. _tab_decrypt()     -> isi tab Dekripsi
-Keduanya sengaja ditulis dengan struktur SAMA PERSIS (flow -> tahap 1..5)
-supaya alurnya gampang dibandingkan dan gampang dipresentasikan.
+
 """
 
 import streamlit as st
@@ -43,12 +39,12 @@ DECRYPT_STAGES = [
 
 
 def render():
-    st.title("🔐 XOR Cipher")
-    st.caption("Algoritma Kriptografi Modern — Materi 5")
+    st.title("XOR Cipher")
+    st.caption("Algoritma Kriptografi Modern")
 
     st.info("Enkripsi: **C = P ⊕ K**   |   Dekripsi: **P = C ⊕ K**")
 
-    with st.expander("ℹ️ Cara kerja singkat", expanded=False):
+    with st.expander("Cara kerja singkat", expanded=False):
         st.markdown(
             "- Plaintext & key diubah menjadi byte (UTF-8).\n"
             "- Jika key lebih pendek dari plaintext, key **diulang** secara periodik "

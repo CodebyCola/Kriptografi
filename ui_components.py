@@ -1,11 +1,3 @@
-"""
-Komponen tampilan yang dipakai bersama oleh semua menu.
-
-Kenapa dipisah di sini?
-Supaya kalau menu Caesar/Vigenere/dll juga butuh "tabel step" atau
-"kartu alur algoritma", tinggal panggil fungsi ini lagi tanpa copy-paste.
-"""
-
 import streamlit as st
 
 

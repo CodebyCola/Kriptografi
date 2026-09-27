@@ -26,12 +26,12 @@ DECRYPT_STAGES = [
 
 
 def render():
-    st.title("📜 Caesar Cipher")
+    st.title("Caesar Cipher")
     st.caption("Algoritma Kriptografi Klasik — Materi 5")
 
     st.info("Enkripsi: **C = (P + shift) mod 26**   |   Dekripsi: **P = (C - shift) mod 26**")
 
-    with st.expander("ℹ️ Cara kerja singkat", expanded=False):
+    with st.expander("Cara kerja singkat", expanded=False):
         st.markdown(
             "- Setiap huruf pada plaintext digeser maju sejauh `shift` posisi di alfabet.\n"
             "- Huruf besar tetap huruf besar, huruf kecil tetap huruf kecil.\n"

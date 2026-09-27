@@ -1,1 +1,1 @@
-pip install pycryptodame streamlit numpy
+pip install streamlit numpy

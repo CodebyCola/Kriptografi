@@ -1,10 +1,6 @@
 """
-XOR Cipher — logic murni (tidak ada kode Streamlit di sini).
+XOR Cipher
 
-Kenapa dipisah dari tampilan?
-Supaya kalau nanti mau nambah menu algoritma lain (Caesar, Vigenere, DES, dst),
-setiap algoritma cukup punya 1 file logic di folder ini + 1 file tampilan
-di folder pages_ui/, tanpa main.py jadi tambah panjang.
 """
 
 from dataclasses import dataclass

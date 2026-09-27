@@ -1,17 +1,3 @@
-"""
-Aplikasi Kriptografi — Tugas Materi 5 (Algoritma Kriptografi Modern)
-
-File ini sengaja dibuat SEPENDEK MUNGKIN.
-Tugasnya cuma 2:
-1. Menyediakan menu (sidebar) untuk 5 sub-aplikasi sesuai soal tugas.
-2. Memanggil fungsi render() dari halaman yang dipilih.
-
-Semua logic algoritma ada di folder ciphers/
-Semua tampilan tiap menu ada di folder pages_ui/
-
-Kalau mau nambah/ganti menu, cukup edit dictionary MENUS di bawah —
-tidak perlu menyentuh bagian lain di file ini.
-"""
 
 import streamlit as st
 
@@ -22,8 +8,8 @@ from pages_ui.coming_soon_page import render as render_coming_soon
 
 
 st.set_page_config(
-    page_title="Kriptografi - Materi 5",
-    page_icon="🔐",
+    page_title="Algoritma Kriptografi",
+    page_icon="",
     layout="wide",
 )
 
@@ -33,17 +19,17 @@ st.set_page_config(
 # ============================================================
 
 MENUS = {
-    "1. Caesar Cipher": {"icon": "📜", "kind": "caesar"},
-    "2. vigenere Cipher ": {"icon": "📜", "kind": "vigenere"},
-    "3. XOR Cipher (Modern)": {"icon": "🔐", "kind": "xor"},
-    "4. Cipher Modern Lain": {"icon": "🧩", "kind": "coming_soon"},
-    "5. Super Enkripsi": {"icon": "🧬", "kind": "coming_soon"},
+    "1. Caesar Cipher": {"icon": "", "kind": "caesar"},
+    "2. vigenere Cipher ": {"icon": "", "kind": "vigenere"},
+    "3. XOR Cipher (Modern)": {"icon": "", "kind": "xor"},
+    "4. Cipher Modern Lain": {"icon": "", "kind": "coming_soon"},
+    "5. Super Enkripsi": {"icon": "", "kind": "coming_soon"},
 }
 
 
 def main():
-    st.sidebar.title("🔐 Kriptografi")
-    st.sidebar.caption("Materi 5 — Algoritma Kriptografi Modern")
+    st.sidebar.title("Kriptografi")
+    st.sidebar.caption("Algoritma Kriptografi")
     st.sidebar.divider()
 
     pilihan = st.sidebar.radio(
@@ -53,7 +39,7 @@ def main():
     )
 
     st.sidebar.divider()
-    st.sidebar.caption("Tugas kelompok — Kriptografi")
+    st.sidebar.caption("Tugas kelompok Kriptografi")
 
     menu = MENUS[pilihan]
 

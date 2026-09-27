@@ -180,7 +180,7 @@ def vigenere_step_table(steps):
 # ---------- Halaman ----------
 
 def render():
-    st.title("🔐 Vigenere Cipher")
+    st.title("Vigenere Cipher")
     st.caption("Algoritma Kriptografi Klasik — Substitusi Polialfabetik")
 
     st.info(
@@ -188,7 +188,7 @@ def render():
         "Dekripsi: setiap huruf ciphertext digeser balik sejauh nilai huruf kunci."
     )
 
-    with st.expander("ℹ️ Cara kerja singkat", expanded=False):
+    with st.expander("Cara kerja singkat", expanded=False):
         st.markdown(
             "- Kunci berupa kata (hanya huruf) yang diulang sepanjang plaintext.\n"
             "- Setiap huruf kunci dikonversi menjadi angka (A=0, B=1, ..., Z=25).\n"
