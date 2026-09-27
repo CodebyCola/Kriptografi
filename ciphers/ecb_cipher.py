@@ -124,6 +124,18 @@ def _aes_decrypt_block(block: bytes, key: bytes) -> bytes:
     return decryptor.update(block) + decryptor.finalize()
 
 
+def ecb_encrypt_bytes(data: bytes, key: bytes) -> bytes:
+    """Enkripsi bytes mentah dengan AES-128-ECB + PKCS#7 padding."""
+    if len(key) != KEY_SIZE:
+        raise ValueError(f"Key harus {KEY_SIZE} byte (AES-128), key yang diberikan {len(key)} byte.")
+
+    padded = pkcs7_pad(data)
+    ciphertext = bytearray()
+    for block in _split_blocks(padded):
+        ciphertext.extend(_aes_encrypt_block(block, key))
+    return bytes(ciphertext)
+
+
 def ecb_encrypt(plaintext: str, key: bytes) -> bytes:
     """Enkripsi plaintext (str) -> ciphertext (bytes) dengan AES-ECB."""
     if len(key) != KEY_SIZE:
@@ -136,6 +148,22 @@ def ecb_encrypt(plaintext: str, key: bytes) -> bytes:
         ciphertext.extend(_aes_encrypt_block(block, key))
 
     return bytes(ciphertext)
+
+
+def ecb_decrypt_bytes(ciphertext: bytes, key: bytes) -> bytes:
+    """Dekripsi bytes dengan AES-128-ECB lalu buang PKCS#7 padding."""
+    if len(key) != KEY_SIZE:
+        raise ValueError(f"Key harus {KEY_SIZE} byte (AES-128), key yang diberikan {len(key)} byte.")
+    if len(ciphertext) % BLOCK_SIZE != 0:
+        raise ValueError(f"Panjang ciphertext harus kelipatan {BLOCK_SIZE} byte (bukan blok AES yang valid).")
+    if len(ciphertext) == 0:
+        raise ValueError("Ciphertext tidak boleh kosong.")
+
+    padded = bytearray()
+    for block in _split_blocks(ciphertext):
+        padded.extend(_aes_decrypt_block(block, key))
+
+    return pkcs7_unpad(bytes(padded))
 
 
 def ecb_decrypt(ciphertext: bytes, key: bytes) -> str:
