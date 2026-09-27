@@ -5,9 +5,8 @@ Alur baca kode di file ini:
 1. render()          -> dipanggil dari main.py
 2. _tab_encrypt()     -> isi tab Enkripsi
 3. _tab_decrypt()     -> isi tab Dekripsi
-Struktur ditulis semirip mungkin dengan pages_ui/xor_page.py supaya gampang
-dibandingkan — bedanya cuma di bagian key (di sini key wajib sepanjang
-plaintext, tidak ada "key diulang").
+Implementasi fokus pada karakteristik One-Time Pad: key harus sepanjang
+data, benar-benar acak, dan tidak boleh digunakan ulang.
 """
 
 import streamlit as st
@@ -49,20 +48,17 @@ def render():
 
     st.info("Enkripsi: **C = P ⊕ K**   |   Dekripsi: **P = C ⊕ K**")
 
-    with st.expander("Cara kerja singkat & bedanya dengan XOR Cipher", expanded=False):
+    with st.expander("Cara kerja singkat", expanded=False):
         st.markdown(
-            "Operasinya sama persis dengan menu **XOR Cipher**: setiap byte "
-            "plaintext di-XOR dengan byte key pada posisi yang sama. "
-            "Yang membedakan Vernam Cipher adalah **3 syarat ketat pada key**, "
-            "supaya cipher ini punya *perfect secrecy* (Claude Shannon, 1949):\n\n"
-            "1. **Sepanjang plaintext** — key **tidak boleh diulang** "
-            "(beda dengan menu XOR Cipher, di sana key boleh lebih pendek "
-            "lalu diulang).\n"
+            "Vernam melakukan operasi XOR pada setiap pasangan byte plaintext "
+            "dan key. Karakteristik One-Time Pad ditentukan oleh **3 syarat "
+            "ketat pada key** (Claude Shannon, 1949):\n\n"
+            "1. **Sepanjang plaintext** — key **tidak boleh diulang**.\n"
             "2. **Benar-benar acak** — bukan kata atau kalimat bermakna.\n"
             "3. **Sekali pakai lalu dibuang** — key yang sama tidak boleh "
             "dipakai untuk pesan lain.\n\n"
-            "Kalau salah satu syarat dilanggar, secara matematis ini cuma "
-            "XOR Cipher dengan key panjang, bukan Vernam Cipher/OTP lagi."
+            "Jika salah satu syarat dilanggar, jaminan keamanan One-Time Pad "
+            "tidak lagi berlaku."
         )
 
     tab_encrypt, tab_decrypt = st.tabs(["Enkripsi", "Dekripsi"])

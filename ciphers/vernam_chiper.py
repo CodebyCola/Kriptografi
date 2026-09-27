@@ -1,21 +1,12 @@
 """
 Vernam Cipher (One-Time Pad) — logic murni (tidak ada kode Streamlit di sini).
 
-Apa bedanya dengan XOR Cipher biasa (ciphers/xor_cipher.py)?
-Operasinya SAMA PERSIS (XOR per byte), tapi syarat key-nya BEDA dan itulah
-yang membuat Vernam Cipher istimewa (perfect secrecy - Shannon, 1949):
+Vernam menggunakan operasi XOR per byte. Karakteristik One-Time Pad
+memerlukan tiga syarat pada key: panjangnya sama dengan data, key benar-benar
+acak, dan key tidak digunakan ulang.
 
-1. Key HARUS sama panjang dengan plaintext (tidak boleh diulang/repeating,
-   beda dengan XOR Cipher di menu sebelah yang key-nya boleh lebih pendek).
-2. Key harus BENAR-BENAR ACAK (bukan kata/kalimat bermakna).
-3. Key HANYA BOLEH dipakai SEKALI lalu dibuang (makanya disebut "one-time pad").
-
-Kalau salah satu dari 3 syarat itu dilanggar, ini bukan Vernam Cipher lagi,
-cuma XOR Cipher dengan key sepanjang plaintext.
-
-Kenapa dipisah dari tampilan? Supaya konsisten dengan pola cipher lain di
-folder ini (lihat xor_cipher.py) — 1 file logic di sini + 1 file tampilan
-di pages_ui/, tanpa main.py jadi tambah panjang.
+Logic dipisahkan dari tampilan agar dapat digunakan ulang oleh halaman Vernam
+dan pipeline Super Enkripsi.
 """
 
 import secrets
@@ -76,9 +67,8 @@ def vernam_encrypt(plaintext: str, key: bytes) -> bytes:
     """
     Enkripsi plaintext (str) -> ciphertext (bytes) dengan Vernam Cipher.
 
-    Beda dengan xor_encrypt(): key di sini TIDAK diulang. Panjang key wajib
-    sama persis dengan panjang plaintext (dalam byte UTF-8), kalau tidak
-    dianggap error supaya syarat one-time pad tidak dilanggar diam-diam.
+    Key Vernam TIDAK diulang. Panjang key wajib sama persis dengan panjang
+    plaintext (dalam byte UTF-8), kalau tidak dianggap error.
     """
     plaintext_bytes = plaintext.encode("utf-8")
 

@@ -1,10 +1,20 @@
+"""
+Logic Super Enkripsi.
 
+Urutan enkripsi:
+    Caesar -> Vigenere -> Vernam
+
+Urutan dekripsi:
+    Vernam -> Vigenere -> Caesar
+
+Setiap algoritma tetap dipisahkan di modulnya masing-masing supaya logic
+super enkripsi hanya bertugas mengorkestrasi pipeline.
+"""
 
 from dataclasses import dataclass
 
 from ciphers.caesar_cipher import caesar_encrypt, caesar_decrypt
 from ciphers.vigenere_cipher import vigenere_encrypt, vigenere_decrypt
-from ciphers.ecb_cipher import ecb_encrypt, ecb_decrypt
 from ciphers.vernam_chiper import generate_random_key
 
 
@@ -23,14 +33,12 @@ class SuperEncryptResult:
 
     caesar_shift: int
     vigenere_key: str
-    xor_key: str
 
     after_caesar: str
     after_vigenere: str
-    after_xor: bytes
-    after_vernam: bytes  # = ciphertext akhir
+    after_vernam: bytes
 
-    vernam_key: bytes  # key OTP yang di-generate otomatis, wajib disimpan user
+    vernam_key: bytes
 
     @property
     def ciphertext(self) -> bytes:
@@ -44,10 +52,6 @@ class SuperEncryptResult:
     def vernam_key_hex(self) -> str:
         return self.vernam_key.hex()
 
-    @property
-    def after_xor_hex(self) -> str:
-        return self.after_xor.hex()
-
 
 @dataclass
 class SuperDecryptResult:
@@ -55,13 +59,11 @@ class SuperDecryptResult:
 
     caesar_shift: int
     vigenere_key: str
-    xor_key: str
     vernam_key: bytes
 
-    after_vernam: bytes  # = hasil balik Vernam = sama dengan after_xor saat enkripsi
-    after_xor: str       # = hasil balik XOR = sama dengan after_vigenere saat enkripsi
-    after_vigenere: str  # = hasil balik Vigenere = sama dengan after_caesar saat enkripsi
-    after_caesar: str    # = plaintext asli
+    after_vernam: str
+    after_vigenere: str
+    after_caesar: str
 
     @property
     def plaintext(self) -> str:
@@ -69,19 +71,17 @@ class SuperDecryptResult:
 
     @property
     def after_vernam_hex(self) -> str:
-        return self.after_vernam.hex()
+        return self.after_vernam.encode("utf-8").hex()
 
 
 # ============================================================
-# Validasi kunci (dipusatkan di sini supaya pesan error konsisten)
+# Validasi kunci
 # ============================================================
 
-def validate_super_keys(vigenere_key: str, xor_key: str) -> str | None:
-    """Cek kunci Vigenere & XOR sebelum dipakai. Return pesan error, atau None kalau valid."""
+def validate_super_keys(vigenere_key: str) -> str | None:
+    """Validasi kunci Vigenere sebelum pipeline dijalankan."""
     if not vigenere_key or not vigenere_key.isalpha() or not vigenere_key.isascii():
         return "Kunci Vigenere harus berupa huruf A-Z dan tidak kosong."
-    if not xor_key:
-        return "Kunci XOR tidak boleh kosong."
     return None
 
 
@@ -93,69 +93,56 @@ def super_encrypt(
     plaintext: str,
     caesar_shift: int,
     vigenere_key: str,
-    xor_key: str,
     vernam_key: bytes | None = None,
 ) -> SuperEncryptResult:
     """
-    Jalankan 4 algoritma berurutan: Caesar -> Vigenere -> XOR -> Vernam.
+    Jalankan 3 algoritma berurutan: Caesar -> Vigenere -> Vernam.
 
-    vernam_key opsional: kalau tidak diisi, di-generate otomatis secara acak
-    sepanjang hasil tahap XOR (mengikuti syarat one-time pad). Kalau diisi
-    (misalnya saat menguji ulang / reproduksi hasil), panjangnya WAJIB sama
-    dengan hasil tahap XOR, kalau tidak akan raise ValueError (sama seperti
-    perilaku vernam_encrypt()).
+    Key Vernam opsional. Jika tidak diberikan, key acak dibuat otomatis
+    sepanjang hasil tahap Vigenere dalam byte UTF-8.
     """
     step1 = caesar_encrypt(plaintext, caesar_shift)
     step2 = vigenere_encrypt(step1, vigenere_key)
-    step3 = xor_encrypt(step2, xor_key)
 
-    key_otp = vernam_key if vernam_key is not None else generate_random_key(len(step3))
-    step4 = _vernam_xor_bytes(step3, key_otp)
+    step2_bytes = step2.encode("utf-8")
+    key_otp = vernam_key if vernam_key is not None else generate_random_key(len(step2_bytes))
+    step3 = _vernam_xor_bytes(step2_bytes, key_otp)
 
     return SuperEncryptResult(
         plaintext=plaintext,
         caesar_shift=caesar_shift,
         vigenere_key=vigenere_key,
-        xor_key=xor_key,
         after_caesar=step1,
         after_vigenere=step2,
-        after_xor=step3,
-        after_vernam=step4,
+        after_vernam=step3,
         vernam_key=key_otp,
     )
 
 
 # ============================================================
-# Dekripsi berantai (urutan kebalikan dari enkripsi)
+# Dekripsi berantai
 # ============================================================
 
 def super_decrypt(
     ciphertext: bytes,
     caesar_shift: int,
     vigenere_key: str,
-    xor_key: str,
     vernam_key: bytes,
 ) -> SuperDecryptResult:
     """
-    Bongkar ciphertext dengan urutan terbalik: Vernam -> XOR -> Vigenere -> Caesar.
-
-    Semua kunci (termasuk vernam_key hasil generate saat enkripsi) wajib
-    persis sama dengan yang dipakai saat enkripsi, kalau tidak hasil akhirnya
-    tidak akan jadi plaintext yang benar (atau bisa gagal di-decode UTF-8).
+    Bongkar ciphertext dengan urutan terbalik: Vernam -> Vigenere -> Caesar.
     """
-    step1 = _vernam_xor_bytes(ciphertext, vernam_key)         # bytes -> bytes
-    step2 = xor_decrypt(step1, xor_key)                      # bytes -> str
-    step3 = vigenere_decrypt(step2, vigenere_key)             # str -> str
-    step4 = caesar_decrypt(step3, caesar_shift)                # str -> str
+    step1_bytes = _vernam_xor_bytes(ciphertext, vernam_key)
+    step1 = step1_bytes.decode("utf-8")
+    step2 = vigenere_decrypt(step1, vigenere_key)
+    step3 = caesar_decrypt(step2, caesar_shift)
 
     return SuperDecryptResult(
         ciphertext=ciphertext,
         caesar_shift=caesar_shift,
         vigenere_key=vigenere_key,
-        xor_key=xor_key,
         vernam_key=vernam_key,
         after_vernam=step1,
-        after_xor=step2,
-        after_vigenere=step3,
-        after_caesar=step4,
+        after_vigenere=step2,
+        after_caesar=step3,
     )

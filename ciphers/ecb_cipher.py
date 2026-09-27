@@ -25,8 +25,8 @@ umumnya TIDAK disarankan untuk data yang punya banyak blok berulang
 tetap menghasilkan ciphertext yang beda-beda).
 
 Kenapa dipisah dari tampilan? Supaya konsisten dengan pola cipher lain di
-folder ini (lihat xor_cipher.py, vernam_chiper.py) — 1 file logic di sini
-+ 1 file tampilan di pages_ui/.
+folder ini (lihat vernam_chiper.py) — 1 file logic di sini + 1 file tampilan di
+pages_ui/.
 """
 
 import secrets
