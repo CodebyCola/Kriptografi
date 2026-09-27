@@ -100,11 +100,10 @@ def _tab_encrypt():
             st.caption(f"Panjang plaintext saat ini: **{plaintext_length} byte** → key harus {plaintext_length} byte.")
 
     if generate and plaintext_length:
-        st.session_state["vernam_generated_key_hex"] = generate_random_key(plaintext_length).hex()
+        st.session_state["vernam_encrypt_key"] = generate_random_key(plaintext_length).hex()
 
     key_hex = st.text_input(
         "Key (HEX)",
-        value=st.session_state.get("vernam_generated_key_hex", ""),
         placeholder="Klik 'Generate Key Acak' atau isi manual dalam format HEX",
         key="vernam_encrypt_key",
         help="Panjang key HEX harus 2x panjang plaintext dalam byte (1 byte = 2 karakter HEX).",

@@ -5,7 +5,7 @@ from pages_ui.xor_page import render as render_xor
 from pages_ui.caesar_page import render as render_caesar
 from pages_ui.vigenere_page import render as render_vigenere
 from pages_ui.vernam_page import render as render_vernam
-from pages_ui.coming_soon_page import render as render_coming_soon
+from pages_ui.super_encryption_page import render as render_super_encryption
 
 
 st.set_page_config(
@@ -24,7 +24,7 @@ MENUS = {
     "2. vigenere Cipher ": {"icon": "", "kind": "vigenere"},
     "3. XOR Cipher (Modern)": {"icon": "", "kind": "xor"},
     "4. Vernam Cipher (Modern)": {"icon": "", "kind": "vernam"},
-    "5. Super Enkripsi": {"icon": "", "kind": "coming_soon"},
+    "5. Super Enkripsi": {"icon": "", "kind": "super_encryption"},
 }
 
 
@@ -41,6 +41,10 @@ def main():
 
     st.sidebar.divider()
     st.sidebar.caption("Tugas kelompok Kriptografi")
+    st.sidebar.caption("1. AUSHAF FATHIN IRSYAD NABIL")
+    st.sidebar.caption("2. AKBAR FAQIH ADHI")
+    st.sidebar.caption("3. MUHAMMAD WINGGA TRIBAYA WAHONO")
+    st.sidebar.caption("4. NICOLAUS NARINDRA LIANTO")
 
     menu = MENUS[pilihan]
 
@@ -52,8 +56,8 @@ def main():
         render_vigenere()
     elif menu["kind"] == "vernam":
         render_vernam()
-    else:
-        render_coming_soon(pilihan)
+    elif menu["kind"] == "super_encryption":
+        render_super_encryption()
 
 
 if __name__ == "__main__":
