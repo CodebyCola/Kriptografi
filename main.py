@@ -20,19 +20,11 @@ st.set_page_config(
 # ============================================================
 
 MENUS = {
-<<<<<<< HEAD
     "1. Caesar Cipher": {"icon": "", "kind": "caesar"},
     "2. vigenere Cipher ": {"icon": "", "kind": "vigenere"},
     "3. XOR Cipher (Modern)": {"icon": "", "kind": "xor"},
-    "4. Cipher Modern Lain": {"icon": "", "kind": "coming_soon"},
+    "4. Vernam Cipher (Modern)": {"icon": "", "kind": "vernam"},
     "5. Super Enkripsi": {"icon": "", "kind": "coming_soon"},
-=======
-    "1. Caesar Cipher": {"icon": "📜", "kind": "caesar"},
-    "2. vigenere Cipher ": {"icon": "📜", "kind": "vigenere"},
-    "3. XOR Cipher (Modern)": {"icon": "🔐", "kind": "xor"},
-    "4. Vernam Cipher (Modern)": {"icon": "🗝️", "kind": "vernam"},
-    "5. Super Enkripsi": {"icon": "🧬", "kind": "coming_soon"},
->>>>>>> 59c28cc9d0a10e0fb6c364aef65f6f07afc3197d
 }
 
 
