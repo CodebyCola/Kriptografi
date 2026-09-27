@@ -4,7 +4,7 @@ from dataclasses import dataclass
 
 from ciphers.caesar_cipher import caesar_encrypt, caesar_decrypt
 from ciphers.vigenere_cipher import vigenere_encrypt, vigenere_decrypt
-from ciphers.xor_cipher import xor_encrypt, xor_decrypt
+from ciphers.ecb_cipher import ecb_encrypt, ecb_decrypt
 from ciphers.vernam_chiper import generate_random_key
 
 
