@@ -1,7 +1,7 @@
 
 import streamlit as st
 
-from pages_ui.xor_page import render as render_xor
+from pages_ui.ecb_page import render as render_ecb
 from pages_ui.caesar_page import render as render_caesar
 from pages_ui.vigenere_page import render as render_vigenere
 from pages_ui.vernam_page import render as render_vernam
@@ -22,7 +22,7 @@ st.set_page_config(
 MENUS = {
     "1. Caesar Cipher": {"icon": "", "kind": "caesar"},
     "2. vigenere Cipher ": {"icon": "", "kind": "vigenere"},
-    "3. XOR Cipher (Modern)": {"icon": "", "kind": "xor"},
+    "3. ECB Cipher (Modern)": {"icon": "", "kind": "ecb"},
     "4. Vernam Cipher (Modern)": {"icon": "", "kind": "vernam"},
     "5. Super Enkripsi": {"icon": "", "kind": "super_encryption"},
 }
@@ -48,8 +48,8 @@ def main():
 
     menu = MENUS[pilihan]
 
-    if menu["kind"] == "xor":
-        render_xor()
+    if menu["kind"] == "ecb":
+        render_ecb()
     elif menu["kind"] == "caesar":
         render_caesar()
     elif menu["kind"] == "vigenere":
