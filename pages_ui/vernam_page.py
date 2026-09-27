@@ -12,7 +12,7 @@ plaintext, tidak ada "key diulang").
 
 import streamlit as st
 
-from ciphers.vernam_cipher import (
+from ciphers.vernam_chiper import (
     generate_random_key,
     vernam_decrypt,
     get_vernam_process,
